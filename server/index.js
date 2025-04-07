@@ -3,18 +3,20 @@ const cors = require("cors");
 var mysql = require("mysql");
 const util = require("util");
 
+
+
+
 var sql = mysql.createConnection({
-  host: "mysql-walmart-noelrinaya318-6b3e.j.aivencloud.com",
+  host: process.env.HOSTNAME_BD,
   port: 21811,
-  user: "avnadmin",
-  password: "AVNS_xntBSi1SLgFCK0XU07B",
-  database: "defaultdb",
+  user: process.env.USERBD,
+  password: process.env.PASSWORD_BD,
+  database: process.env.DATABASE_DB,
 });
 
 sql.connect();
 
 const app = express();
-
 
 require("dotenv").config();
 
