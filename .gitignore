@@ -4,7 +4,6 @@
 .DS_Store
 /client/build
 
-/server/.env
 .env.local
 .env.development.local
 .env.test.local
