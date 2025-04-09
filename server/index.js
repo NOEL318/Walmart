@@ -26,6 +26,15 @@ app.get("/api/hi", async (req, res) => {
   res.json({ success: true, data: results });
 });
 
+app.post("/api/nuevo_proveedor", async (req, res) => {
+  var { nombre, direccion, telefono, email } = req.body;
+  const results = await dbquery(
+    `INSERT INTO Proveedores (nombre, direccion, telefono, email) VALUES ('${nombre}', '${direccion}', '${telefono}', '${email}');`
+  );
+  res.json({ success: true, data: results });
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
