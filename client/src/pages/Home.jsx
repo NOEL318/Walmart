@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Modal } from "../components/Modal";
 
-export const Home = () => {
+export const Home = ({ user }) => {
   const [showModal, setshowModal] = useState(false);
   const [showModall, setshowModall] = useState(false);
 
@@ -15,11 +15,7 @@ export const Home = () => {
         setshowModal={setshowModal}
       />
 
-
-      <div className="home">
-
-      
-      </div>
+      <div className="home">{JSON.stringify(user)}</div>
     </>
   );
 };

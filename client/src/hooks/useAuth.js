@@ -19,8 +19,8 @@ export const signup = async ({ username, id, password }) => {
   }
 };
 
-export const signin = async ({ id, password }) => {
-  const res = await axios.post(`${url}/api/signin`, { id, password });
+export const signin = async ({ email, password }) => {
+  const res = await axios.post(`${url}/api/signin`, { email, password });
   const json = await res.data;
   if (res.status == 200 && res.data.status == 200) {
     // save the user to local storage
@@ -47,7 +47,7 @@ export const loginwithoutpassword = async (user) => {
     const response = await axios({
       url: `${url}/api/loginwithoutpassword`,
       method: "POST",
-      data: { id: payl.id },
+      data: { email: payl.email },
     });
     const json = response.data;
     if (json.status == 200) {
@@ -67,42 +67,6 @@ export const getUsers = async ({ id }) => {
   const res = await axios.post(`${url}/api/getUsers`, { id });
   if (res.status == 200 && res.data.status == 200) {
     return res.data.users;
-  } else {
-    var { message, status } = res.data;
-    if (message || status != 200) {
-      window.alert(message);
-    }
-  }
-};
-
-export const updateUserRole = async ({ id, newrole }) => {
-  const res = await axios.post(`${url}/api/updateUserRole`, {
-    id,
-    role: newrole,
-  });
-  if (res.status == 200 && res.data.status == 200) {
-    console.log(res.data);
-    if (res.data.status == 200) {
-      window.alert("OK!");
-    }
-  } else {
-    var { message, status } = res.data;
-    if (message || status != 200) {
-      window.alert(message);
-    }
-  }
-};
-
-export const updateUserAuthorization = async ({ id, authorization }) => {
-  const res = await axios.post(`${url}/api/updateUserAuthorization`, {
-    id,
-    authorized: authorization,
-  });
-  if (res.status == 200 && res.data.status == 200) {
-    console.log(res.data);
-    if (res.data.status == 200) {
-      window.alert("OK!");
-    }
   } else {
     var { message, status } = res.data;
     if (message || status != 200) {

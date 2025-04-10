@@ -1,4 +1,4 @@
-import mainlogo from "../assets/mainlogo.svg";
+import mainlogo from "../assets/mainlogoo.svg";
 import { CiSearch } from "react-icons/ci";
 import { FiUser } from "react-icons/fi";
 import { PiSquaresFour } from "react-icons/pi";
@@ -6,7 +6,7 @@ import { PiCirclesFour } from "react-icons/pi";
 import { PiShoppingCart } from "react-icons/pi";
 import { Link } from "react-router-dom";
 
-export const Navbar = () => {
+export const Navbar = ({ user }) => {
   return (
     <div className="navbar">
       <ul>
@@ -48,21 +48,6 @@ export const Navbar = () => {
               <li>
                 <Link to={"/Proveedores"}>Proveedores</Link>
               </li>
-              <li>Inventario</li>
-              <li>Tiendas</li>
-              <li>Almacenes</li>
-              <li>Ventas</li>
-              <li>Detalles de Venta</li>
-              <li>Devoluciones Clientes</li>
-              <li>Tarjetas de Fidelización</li>
-              <li>Empleados</li>
-              <li>Pedidos a Proveedores</li>
-              <li>Detalles de Pedido</li>
-              <li>Envíoos</li>
-              <li>Facturas</li>
-              <li>Pagos</li>
-              <li>Mantenimiento</li>
-              <li>Usuarios del Sistema</li>
             </ul>
           </div>
         </li>
@@ -76,13 +61,25 @@ export const Navbar = () => {
         </li>
         <li>
           <div className="navbar_option">
-            <div className="logo">
-              <FiUser />
-            </div>
-            <div className="text">
-              <div className="left">Iniciar sesión</div>
-              <div className="right">Cuenta</div>
-            </div>
+            <Link to={"/Auth"}>
+              <div className="logo">
+                <FiUser />
+              </div>
+              {!user && (
+                <div className="text">
+                  <div className="left">Iniciar sesión</div>
+                  <div className="right">Cuenta</div>
+                </div>
+              )}
+            </Link>
+            <Link to={"/User"}>
+              {user && (
+                <div className="text">
+                  <div className="left">{user.nombre}</div>
+                  <div className="right">Cuenta</div>
+                </div>
+              )}
+            </Link>
           </div>
         </li>
         <li>
