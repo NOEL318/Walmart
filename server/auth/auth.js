@@ -3,6 +3,23 @@ const bcrypt = require("bcrypt");
 const Auth_SQL = require("../database/Auth");
 
 module.exports = {
+  signUp: async function (user) {
+    const exist = await Auth_SQL.AccountExist(user.email);
+    console.log(exist, "Exist aaa");
+    if (exist != null) {
+      return { status: 401, token: null, error: "Ya tienes una cuenta" };
+    } else if (exist == null) {
+      const salt = await bcrypt.genSalt(10);
+      var hash = await bcrypt.hash(user.contrasena, salt);
+      user.contrasena = hash;
+      var response = await Auth_SQL.SignUp(user);
+      return {
+        status: 200,
+        token: null,
+        error: "Cuenta Creada Inicia Sesión.",
+      };
+    }
+  },
   signIn: async function ({ email, password }) {
     const exist = await Auth_SQL.AccountExist(email);
     console.log("exist", exist);

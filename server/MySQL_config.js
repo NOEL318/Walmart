@@ -2,7 +2,7 @@ const mysql = require("mysql");
 const util = require("util");
 require("dotenv").config();
 
-const sql = mysql.createConnection({
+const pool = mysql.createPool({
   host: process.env.HOSTNAME_BD,
   port: 21811,
   user: process.env.USER_BD,
@@ -10,16 +10,33 @@ const sql = mysql.createConnection({
   database: process.env.DATABASE_DB,
 });
 
-sql.connect((err) => {
-  if (err) {
-    console.error("Error connecting to database:", err);
-    return;
-  }
-  console.log("Connected to MySQL database.");
-});
+const getConnection = () => {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(connection);
+    });
+  });
+};
 
-const dbquery = util.promisify(sql.query).bind(sql);
+const dbquery = async (sql, values) => {
+  let connection;
+  try {
+    connection = await getConnection();
+    const results = await util
+      .promisify(connection.query)
+      .call(connection, sql, values);
+    connection.release();
+    return results;
+  } catch (error) {
+    if (connection) connection.release(); // Asegúrate de liberar la conexión en caso de error
+    throw error;
+  }
+};
 
 module.exports = {
-  dbquery
+  dbquery,
 };

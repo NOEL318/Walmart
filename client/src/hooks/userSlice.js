@@ -17,6 +17,7 @@ export const SignIn = createAsyncThunk("signin", async (user, thunkAPI) => {
     return thunkAPI.rejectWithValue(message);
   }
 });
+
 export const SignOut = createAsyncThunk("signout", async (thunkAPI) => {
   try {
     return await authServices.signout();

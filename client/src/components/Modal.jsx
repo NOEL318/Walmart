@@ -1,6 +1,14 @@
 import { IoClose } from "react-icons/io5";
 
-export const Modal = ({ title, type, close_text, setshowModal, showModal }) => {
+export const Modal = ({
+  title,
+  type,
+  close_text,
+  setshowModal,
+  showModal,
+  body,
+  action,
+}) => {
   if (showModal)
     return (
       <div className="modal-container">
@@ -14,7 +22,7 @@ export const Modal = ({ title, type, close_text, setshowModal, showModal }) => {
               <IoClose />
             </button>
           </div>
-          <div className="body"></div>
+          <div className="body">{body}</div>
           <div className="footer">
             <button
               className="button big white"
@@ -22,6 +30,7 @@ export const Modal = ({ title, type, close_text, setshowModal, showModal }) => {
             >
               {close_text}
             </button>
+            {action}
           </div>
         </div>
       </div>

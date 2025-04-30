@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
-import { get_Proveedores, New_Proveedor } from "../hooks/useProveedores";
-import { data } from "react-router-dom";
+import { get_Proveedores } from "../hooks/useProveedores";
+import { ToastContainer, toast } from "react-toastify";
+import SyncLoader from "react-spinners/SyncLoader";
 
 export const Proveedores = () => {
-  const [nombre, setnombre] = useState();
-  const [direccion, setdireccion] = useState();
-  const [telefono, settelefono] = useState();
-  const [email, setemail] = useState();
   const [proveedores, setproveedores] = useState();
   useEffect(() => {
     const getData = async () => {
@@ -17,47 +14,13 @@ export const Proveedores = () => {
     };
     getData();
   }, [1]);
-  if (proveedores)
+
+  if (proveedores) {
     return (
       <div className="proveedores">
-        <div className="registro">
-          <h1>Registro de Proveedores</h1>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              await New_Proveedor({ nombre, direccion, telefono, email });
-            }}
-            className="formulario"
-          >
-            <input
-              type="text"
-              placeholder="Nombre"
-              required
-              onChange={(e) => setnombre(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Dirección"
-              required
-              onChange={(e) => setdireccion(e.target.value)}
-            />
-            <input
-              type="phone"
-              placeholder="Teléfono"
-              required
-              onChange={(e) => settelefono(e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="E-mail"
-              required
-              onChange={(e) => setemail(e.target.value)}
-            />
-            <button type="submit" className="button big yellow">
-              Registrar Proveedor
-            </button>
-          </form>
+        <ToastContainer />
 
+        <div className="lista">
           <h1>Listado de Proveedores</h1>
           <table>
             <thead>
@@ -73,7 +36,7 @@ export const Proveedores = () => {
             <tbody>
               {proveedores.map((proveedor) => {
                 return (
-                  <tr>
+                  <tr key={proveedor.id_proveedor}>
                     <td>{proveedor.id_proveedor}</td>
                     <td>{proveedor.nombre}</td>
                     <td>{proveedor.direccion}</td>
@@ -88,4 +51,11 @@ export const Proveedores = () => {
         </div>
       </div>
     );
+  } else {
+    return (
+      <div className="loader">
+        <SyncLoader color="#ffffff" margin={0} size={50} />
+      </div>
+    );
+  }
 };

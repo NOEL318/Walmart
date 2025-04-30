@@ -1,7 +1,6 @@
-import mainlogo from "../assets/mainlogoo.svg";
+import mainlogo from "../assets/mainlogo.svg";
 import { CiSearch } from "react-icons/ci";
 import { FiUser } from "react-icons/fi";
-import { PiSquaresFour } from "react-icons/pi";
 import { PiCirclesFour } from "react-icons/pi";
 import { PiShoppingCart } from "react-icons/pi";
 import { Link } from "react-router-dom";
@@ -27,16 +26,6 @@ export const Navbar = ({ user }) => {
           </div>
         </li>
         <li>
-          <div className="navbar_option">
-            <div className="logo">
-              <PiSquaresFour />
-            </div>
-            <div className="text">
-              <div>Departamentos</div>
-            </div>
-          </div>
-        </li>
-        <li>
           <div className="navbar_option dropdown">
             <div className="logo">
               <PiCirclesFour />
@@ -46,7 +35,22 @@ export const Navbar = ({ user }) => {
             </div>
             <ul className="dropdown-option">
               <li>
+                <Link to={"/Productos"}>Registro de Productos</Link>
+              </li>
+              <li>
+                <Link to={"/Finanzas"}>Finanzas</Link>
+              </li>
+              <li>
+                <Link to={"/Inmuebles"}>Registro de Inmuebles</Link>
+              </li>
+              <li>
+                <Link to={"/Almacenes"}>Almacenes</Link>
+              </li>
+              <li>
                 <Link to={"/Proveedores"}>Proveedores</Link>
+              </li>
+              <li>
+                <Link to={"/Usuarios"}>Gestión de Usuarios</Link>
               </li>
             </ul>
           </div>
@@ -76,7 +80,7 @@ export const Navbar = ({ user }) => {
               {user && (
                 <div className="text">
                   <div className="left">{user.nombre}</div>
-                  <div className="right">Cuenta</div>
+                  <div className="right">{user.apellidos}</div>
                 </div>
               )}
             </Link>

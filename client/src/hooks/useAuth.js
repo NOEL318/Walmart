@@ -2,8 +2,8 @@ import axios from "axios";
 import * as jose from "jose";
 import { url } from "./hooksConfig";
 
-export const signup = async ({ username, id, password }) => {
-  const res = await axios.post(`${url}/api/signup`, { username, id, password });
+export const signup = async (user) => {
+  const res = await axios.post(`${url}/api/signup`, user);
   const json = await res.data;
   if (res.status == 200 && res.data.status == 200) {
     // save the user to local storage
@@ -19,8 +19,15 @@ export const signup = async ({ username, id, password }) => {
   }
 };
 
-export const signin = async ({ email, password }) => {
-  const res = await axios.post(`${url}/api/signin`, { email, password });
+export const get_Tiendas = async () => {
+  return await axios.get(`${url}/api/obtener_tiendas`);
+};
+
+export const signin = async (user) => {
+  const res = await axios.post(`${url}/api/signin`, {
+    email: user.email,
+    password: user.password,
+  });
   const json = await res.data;
   if (res.status == 200 && res.data.status == 200) {
     // save the user to local storage
