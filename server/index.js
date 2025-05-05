@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { signIn, loginwithoutpassword, signUp } = require("./auth/auth");
 const { dbquery } = require("./MySQL_config");
+const path = require("path");
 
 const app = express();
 require("dotenv").config();
@@ -9,6 +10,8 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 const PORT = process.env.PORT || 5001;
+
+app.use(express.static(path.join(__dirname, "../client/dist")));
 
 app.get("/api/hi", async (req, res) => {
   const results = await dbquery("Select * from Productos;");
@@ -167,8 +170,8 @@ app.get("/api/obtener_almacenes", async (req, res) => {
 });
 
 app.post("/api/add_to_almacen_inventario", async (req, res) => {
-	var { id_producto, id_almacen, cantidad, id_tienda } = req.body;
-	console.log(req.body, "Asjjsaj")
+  var { id_producto, id_almacen, cantidad, id_tienda } = req.body;
+  console.log(req.body, "Asjjsaj");
   const data = await dbquery(`
       INSERT INTO Inventario (id_producto, id_almacen, id_tienda, cantidad)
       VALUES ('${id_producto}', '${id_almacen}', '${id_tienda}',${parseInt(
@@ -241,6 +244,10 @@ app.post("/api/get_inventario", async (req, res) => {
 app.get("/api/obtener_tiendas", async (req, res) => {
   const data = await dbquery(`SELECT * FROM Tiendas;`);
   res.json({ success: true, data });
+});
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
 
 app.listen(PORT, () => {
