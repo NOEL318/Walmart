@@ -1,0 +1,14 @@
+"filename", "language", "JavaScript", "JavaScript JSX", "SCSS", "comment", "blank", "total"
+"/Users/noel/Desktop/REPOS/walmart/client/src/App.js", "JavaScript", 4, 0, 0, 0, 0, 4
+"/Users/noel/Desktop/REPOS/walmart/client/src/components/Navbar.jsx", "JavaScript JSX", 0, 19, 0, 0, 1, 20
+"/Users/noel/Desktop/REPOS/walmart/client/src/hooks/useAuth.js", "JavaScript", 8, 0, 0, -2, 2, 8
+"/Users/noel/Desktop/REPOS/walmart/client/src/main.scss", "SCSS", 0, 0, 135, 0, 2, 137
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/Carrito.jsx", "JavaScript JSX", 0, 77, 0, 0, 3, 80
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/Producto.jsx", "JavaScript JSX", 0, 47, 0, 1, 6, 54
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/Proveedores.jsx", "JavaScript JSX", 0, 4, 0, 0, 0, 4
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/User.jsx", "JavaScript JSX", 0, 30, 0, 0, 0, 30
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/Usuarios.jsx", "JavaScript JSX", 0, 112, 0, 0, 7, 119
+"/Users/noel/Desktop/REPOS/walmart/server/auth/auth.js", "JavaScript", 10, 0, 0, 16, 2, 28
+"/Users/noel/Desktop/REPOS/walmart/server/database/Auth.js", "JavaScript", 3, 0, 0, 0, 1, 4
+"/Users/noel/Desktop/REPOS/walmart/server/index.js", "JavaScript", 11, 0, 0, 0, 1, 12
+"Total", "-", 36, 289, 135, 15, 25, 500

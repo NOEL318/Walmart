@@ -28,7 +28,11 @@ export const Proveedores = () => {
 
   const crear_ProveedordeCliente = async () => {
     var res = await crearProveedordeCliente(email);
-    console.log(res);
+    if (res.status == 200) {
+      toast("Registrado Exitósamente", { type: "success" });
+    } else {
+      toast("No se ha registrado", { type: "error" });
+    }
   };
 
   if (proveedores) {

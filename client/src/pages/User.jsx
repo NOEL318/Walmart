@@ -5,12 +5,26 @@ import { FaCircle } from "react-icons/fa";
 import { FaShop } from "react-icons/fa6";
 import { FiUser } from "react-icons/fi";
 import { PiIdentificationBadge } from "react-icons/pi";
-
+import membresia_img from "../assets/card.png";
+import { useEffect, useState } from "react";
+import { getMembresia } from "../hooks/useAuth";
 export const User = ({ user }) => {
+  const [membresia, setmembresia] = useState();
   const dispatch = useDispatch();
   const logout = async () => {
     dispatch(SignOut());
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      if (user) {
+        var { data } = await getMembresia(user.id_cliente);
+        data = data.data;
+        setmembresia(data[0]);
+      }
+    };
+    getData();
+  }, [0]);
 
   return (
     <>
@@ -35,14 +49,16 @@ export const User = ({ user }) => {
                       <p>{user.nombre}</p>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <h3>Apellidos</h3>
-                    </td>
-                    <td>
-                      <p>{user.apellidos} </p>
-                    </td>
-                  </tr>
+                  {user.rol != "proveedor" && (
+                    <tr>
+                      <td>
+                        <h3>Apellidos</h3>
+                      </td>
+                      <td>
+                        <p>{user.apellidos} </p>
+                      </td>
+                    </tr>
+                  )}
                   <tr>
                     <td>
                       <h3>Email: </h3>
@@ -84,108 +100,124 @@ export const User = ({ user }) => {
                 </tbody>
               </table>
             </div>
+            {membresia && (
+              <div className="membresia">
+                <h1>Membresía Walmart</h1>
+                <div className="card">
+                  <img src={membresia_img} alt="" />
+                  <div className="text">
+                    {membresia.numero_tarjeta
+                      .replace(/(.{4})/g, "$1-")
+                      .slice(0, -1)}
+                  </div>
+                  <div className="exp">{membresia.expiracion}</div>
+                  <div className="nombre">
+                    {user.nombre} {user.apellidos}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-          {user.rol == "empleado" ||
-            (user.rol == "admin" && (
-              <div className="empleado">
-                <div className="info">
+          {(user.rol == "empleado" || user.rol == "admin") && (
+            <div className="empleado">
+              <div className="info">
+                <div className="left">
+                  <PiIdentificationBadge />
+                </div>
+                <div className="right">
+                  <table>
+                    <thead></thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <h3>Puesto: </h3>
+                        </td>
+                        <td>
+                          <p>{user.puesto}</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <h3>Salario:</h3>
+                        </td>
+                        <td>
+                          <p>${user.salario}mxn.</p>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <h3>Id_Empleado: </h3>
+                        </td>
+                        <td>
+                          <p>{user.id_empleado}</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div className="tienda">
+                <div className="containers">
                   <div className="left">
-                    <PiIdentificationBadge />
+                    <FaShop />
                   </div>
                   <div className="right">
+                    <h1>Tienda: </h1>
                     <table>
                       <thead></thead>
                       <tbody>
                         <tr>
                           <td>
-                            <h3>Puesto: </h3>
+                            <h3>Id_Tienda: </h3>
                           </td>
                           <td>
-                            <p>{user.puesto}</p>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <h3>Salario:</h3>
-                          </td>
-                          <td>
-                            <p>${user.salario}mxn.</p>
+                            <p>{user.id_tienda}</p>
                           </td>
                         </tr>
 
                         <tr>
                           <td>
-                            <h3>Id_Empleado: </h3>
+                            <h3>Nombre: </h3>
                           </td>
                           <td>
-                            <p>{user.id_empleado}</p>
+                            <p>{user.nombre_tienda}</p>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            <h3>Dirección: </h3>
+                          </td>
+                          <td>
+                            <p>{user.direccion_tienda}</p>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            <h3>Teléfono: </h3>
+                          </td>
+                          <td>
+                            <p>+ {user.telefono_tienda}</p>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            <h3>Ciudad: </h3>
+                          </td>
+                          <td>
+                            <p>{user.ciudad_tienda}</p>
                           </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                 </div>
-                <div className="tienda">
-                  <div className="containers">
-                    <div className="left">
-                      <FaShop />
-                    </div>
-                    <div className="right">
-                      <h1>Tienda: </h1>
-                      <table>
-                        <thead></thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <h3>Id_Tienda: </h3>
-                            </td>
-                            <td>
-                              <p>{user.id_tienda}</p>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td>
-                              <h3>Nombre: </h3>
-                            </td>
-                            <td>
-                              <p>{user.nombre_tienda}</p>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td>
-                              <h3>Dirección: </h3>
-                            </td>
-                            <td>
-                              <p>{user.direccion}</p>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td>
-                              <h3>Teléfono: </h3>
-                            </td>
-                            <td>
-                              <p>{user.telefono}</p>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td>
-                              <h3>Ciudad: </h3>
-                            </td>
-                            <td>
-                              <p>{user.ciudad}</p>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
               </div>
-            ))}
+            </div>
+          )}
         </div>
       </div>
     </>

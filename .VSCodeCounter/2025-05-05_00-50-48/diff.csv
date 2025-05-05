@@ -1,0 +1,30 @@
+"filename", "language", "JavaScript", "JavaScript JSX", "SCSS", "JSON", "XML", "HTML", "CSS", "MS SQL", "Properties", "comment", "blank", "total"
+"/Users/noel/Desktop/REPOS/walmart/client/build/asset-manifest.json", "JSON", 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 14
+"/Users/noel/Desktop/REPOS/walmart/client/build/index.html", "HTML", 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1
+"/Users/noel/Desktop/REPOS/walmart/client/build/manifest.json", "JSON", 0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 1, 26
+"/Users/noel/Desktop/REPOS/walmart/client/build/static/css/main.29bbb6f8.css", "CSS", 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2
+"/Users/noel/Desktop/REPOS/walmart/client/build/static/js/main.24c22dbe.js", "JavaScript", 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 3
+"/Users/noel/Desktop/REPOS/walmart/client/build/static/media/mainlogo.d6ea228a23740ffc7649a5fd061c0a48.svg", "XML", 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1
+"/Users/noel/Desktop/REPOS/walmart/client/package.json", "JSON", 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1
+"/Users/noel/Desktop/REPOS/walmart/client/src/App.js", "JavaScript", 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11
+"/Users/noel/Desktop/REPOS/walmart/client/src/components/Navbar.jsx", "JavaScript JSX", 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8
+"/Users/noel/Desktop/REPOS/walmart/client/src/hooks/useAuth.js", "JavaScript", 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 21
+"/Users/noel/Desktop/REPOS/walmart/client/src/hooks/useProductos.js", "JavaScript", 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 19
+"/Users/noel/Desktop/REPOS/walmart/client/src/main.scss", "SCSS", 0, 0, 116, 0, 0, 0, 0, 0, 0, 0, 6, 122
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/Almacenes.jsx", "JavaScript JSX", 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/Carrito.jsx", "JavaScript JSX", 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 5, 12
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/Home.jsx", "JavaScript JSX", 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/Inventario.jsx", "JavaScript JSX", 0, 40, 0, 0, 0, 0, 0, 0, 0, 2, 3, 45
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/Producto.jsx", "JavaScript JSX", 0, 62, 0, 0, 0, 0, 0, 0, 0, 0, 4, 66
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/Productos.jsx", "JavaScript JSX", 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 2, 62
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/Proveedores.jsx", "JavaScript JSX", 0, 53, 0, 0, 0, 0, 0, 0, 0, 0, 3, 56
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/User.jsx", "JavaScript JSX", 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2
+"/Users/noel/Desktop/REPOS/walmart/client/src/pages/Usuarios.jsx", "JavaScript JSX", 0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 4, 94
+"/Users/noel/Desktop/REPOS/walmart/server/.env", "Properties", 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, -5
+"/Users/noel/Desktop/REPOS/walmart/server/database/Auth.js", "JavaScript", 39, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 41
+"/Users/noel/Desktop/REPOS/walmart/server/database/main.sql", "MS SQL", 0, 0, 0, 0, 0, 0, 0, -8, 0, -53, -13, -74
+"/Users/noel/Desktop/REPOS/walmart/server/index.js", "JavaScript", 92, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 105
+"/Users/noel/Desktop/REPOS/walmart/server/package-lock.json", "JSON", 0, 0, 0, 35, 0, 0, 0, 0, 0, 0, 0, 35
+"/Users/noel/Desktop/REPOS/walmart/server/package.json", "JSON", 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 3
+"/Users/noel/Desktop/REPOS/walmart/server/vercel.json", "JSON", 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 15
+"Total", "-", 176, 326, 116, 93, 1, 1, 1, -8, -5, -48, 37, 690

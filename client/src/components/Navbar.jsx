@@ -25,36 +25,60 @@ export const Navbar = ({ user }) => {
             </div>
           </div>
         </li>
-        <li>
-          <div className="navbar_option dropdown">
-            <div className="logo">
-              <PiCirclesFour />
-            </div>
-            <div className="text">
-              <div>Administrador</div>
-            </div>
-            <ul className="dropdown-option">
+        {user && (
+          <>
+            {user.rol != "cliente" && (
               <li>
-                <Link to={"/Productos"}>Registro de Productos</Link>
+                <div className="navbar_option dropdown">
+                  <div className="logo">
+                    <PiCirclesFour />
+                  </div>
+                  <div className="text">
+                    <div>Administrador</div>
+                  </div>
+
+                  <ul className="dropdown-option">
+                    {user.rol != "cliente" && (
+                      <li>
+                        <Link to={"/Productos"}>Registro de Productos</Link>
+                      </li>
+                    )}
+
+                    {user.rol == "proveedor" && (
+                      <li>
+                        <Link to={"/Pedidos"}>Gestión de Pedidos</Link>
+                      </li>
+                    )}
+                    {(user.rol == "empleado" || user.rol == "admin") && (
+                      <>
+                        {/* <li>
+                          <Link to={"/Finanzas"}>Finanzas</Link>
+                        </li> */}
+                        <li>
+                          <Link to={"/Pedidos_Proveedores"}>
+                            Pedidos a Proveedores
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to={"/Inmuebles"}>Registro de Inmuebles</Link>
+                        </li>
+                        <li>
+                          <Link to={"/Almacenes"}>Almacenes</Link>
+                        </li>
+                        <li>
+                          <Link to={"/Proveedores"}>Proveedores</Link>
+                        </li>
+                        <li>
+                          <Link to={"/Usuarios"}>Gestión de Usuarios</Link>
+                        </li>
+                      </>
+                    )}
+                  </ul>
+                </div>
               </li>
-              <li>
-                <Link to={"/Finanzas"}>Finanzas</Link>
-              </li>
-              <li>
-                <Link to={"/Inmuebles"}>Registro de Inmuebles</Link>
-              </li>
-              <li>
-                <Link to={"/Almacenes"}>Almacenes</Link>
-              </li>
-              <li>
-                <Link to={"/Proveedores"}>Proveedores</Link>
-              </li>
-              <li>
-                <Link to={"/Usuarios"}>Gestión de Usuarios</Link>
-              </li>
-            </ul>
-          </div>
-        </li>
+            )}
+          </>
+        )}
         <li>
           <div className="search_bar">
             <input type="text" placeholder="Buscar en Walmart" />
@@ -87,14 +111,29 @@ export const Navbar = ({ user }) => {
           </div>
         </li>
         <li>
-          <div className="navbar_option cart">
-            <div className="logo">
-              <PiShoppingCart />
-            </div>
-            <div className="text">
-              <div className="left">$0.00</div>
-            </div>
-          </div>
+          {user ? (
+            <Link to={"/Carrito"}>
+              <div className="navbar_option cart">
+                <div className="logo">
+                  <PiShoppingCart />
+                </div>
+                <div className="text">
+                  <div className="left">$0.00</div>
+                </div>
+              </div>
+            </Link>
+          ) : (
+            <Link to={"/Auth"}>
+              <div className="navbar_option cart">
+                <div className="logo">
+                  <PiShoppingCart />
+                </div>
+                <div className="text">
+                  <div className="left">$0.00</div>
+                </div>
+              </div>
+            </Link>
+          )}
         </li>
       </ul>
     </div>

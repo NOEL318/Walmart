@@ -6,6 +6,7 @@ import {
   crearEmpleadodeCliente,
   get_Tiendas,
   obtenerUsuarios,
+  tramitarMembresia,
 } from "../hooks/useAuth";
 export const Usuarios = () => {
   const [tiendas, settiendas] = useState();
@@ -13,6 +14,12 @@ export const Usuarios = () => {
   const [email, setemail] = useState("");
   const [visible, setvisible] = useState();
   const [usuarios, setusuarios] = useState();
+  const [membresiaFormData, setmembresiaFormData] = useState({
+    id_cliente: "",
+    puntos: 0,
+    numero_tarjeta: "",
+    expiracion: "",
+  });
   const [formData, setformData] = useState({
     email: "",
     rol: "",
@@ -29,6 +36,7 @@ export const Usuarios = () => {
       data = data.data;
       settiendas(data);
     };
+    console.log(membresiaFormData);
     getData();
   }, [0]);
 
@@ -37,14 +45,63 @@ export const Usuarios = () => {
     setformData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const updateMembresiaFormJson = (data) => {
+    setmembresiaFormData((prev) => ({ ...prev, ...data }));
+  };
+
   const buscar_ClienteUsuarios = async (email) => {
     var res = await buscarClienteUsuarios(email);
-    setemails_encontrados(res.data.data);
+		setemails_encontrados(res.data.data);
   };
 
   const crear_EmpleadodeCliente = async () => {
     var res = await crearEmpleadodeCliente(formData);
+    if (res.status == 200) {
+      toast("Registrado Exitósamente", { type: "success" });
+    } else {
+      toast("No se ha registrado", { type: "error" });
+    }
   };
+
+  const tramitar_MembresiaCliente = async () => {
+    var res = await tramitarMembresia(membresiaFormData);
+    if (res.status == 200) {
+      toast("Registrado Exitósamente", { type: "success" });
+    } else {
+      toast("No se ha registrado", { type: "error" });
+    }
+  };
+
+  function generarTarjeta(banco = "visa") {
+    const bin = banco === "amex" ? "34" : banco === "mastercard" ? "51" : "4";
+    const len = banco === "amex" ? 15 : 16;
+    let num =
+      bin +
+      Array(len - bin.length - 1)
+        .fill(0)
+        .map(() => (Math.random() * 10) | 0)
+        .join("");
+    const sum = num
+      .split("")
+      .reverse()
+      .map((d, i) => {
+        d = +d;
+        if (i % 2 === 0) d *= 2;
+        return d > 9 ? d - 9 : d;
+      })
+      .reduce((a, b) => a + b, 0);
+    const final = num + ((10 - (sum % 10)) % 10);
+    const mes = ((Math.random() * 12 + 1) | 0).toString().padStart(2, "0");
+    const año = new Date().getFullYear() + ((Math.random() * 5) | 0);
+    const cvc = Array(banco === "amex" ? 4 : 3)
+      .fill(0)
+      .map(() => (Math.random() * 10) | 0)
+      .join("");
+    updateMembresiaFormJson({
+      numero_tarjeta: final,
+      expiracion: `${mes}/${año}`,
+    });
+  }
 
   if (tiendas)
     return (
@@ -131,6 +188,68 @@ export const Usuarios = () => {
               />
 
               <button className="button big yellow">Registrar Usuario</button>
+            </form>
+          </div>
+
+          <div className="form_container">
+            <h1>Tramitar Membresía Walmart</h1>
+            <form
+              action=""
+              className="formulario"
+              onSubmit={(e) => {
+                e.preventDefault();
+                tramitar_MembresiaCliente();
+              }}
+            >
+              <input
+                type="text"
+                value={email}
+                onChange={(e) => {
+                  const newEmail = e.target.value;
+                  setemail(newEmail);
+                  buscar_ClienteUsuarios(newEmail !== "" ? newEmail : null);
+                  setvisible(true);
+                }}
+                name="email"
+                placeholder="Buscar email..."
+              />
+              {visible && emails_encontrados?.length > 0 && (
+                <ul className="email_selector">
+                  {emails_encontrados.map((emailEncontrado) => (
+                    <li
+                      onClick={() => {
+                        setemail(emailEncontrado.email);
+                        setvisible(false);
+                        generarTarjeta();
+                        updateMembresiaFormJson({
+                          id_cliente: emailEncontrado.id_cliente,
+                        });
+                      }}
+                      key={emailEncontrado.email}
+                    >
+                      {emailEncontrado.email}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <input
+                type="text"
+                name="puntos"
+                disabled
+                defaultValue={0}
+                placeholder="Puntos Iniciales"
+              />
+
+              <input
+                type="text"
+                name="numero_tarjeta"
+                placeholder="Tarjeta"
+                disabled
+                defaultValue={membresiaFormData.numero_tarjeta}
+              />
+
+              <button className="button big yellow">Tramitar Membresía</button>
             </form>
           </div>
 

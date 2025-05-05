@@ -4,7 +4,7 @@ import { Home } from "./pages/Home";
 import { Proveedores } from "./pages/Proveedores";
 import { Auth } from "./pages/Auth";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import { loginwithoutpassword } from "./hooks/userSlice";
 import { User } from "./pages/User";
 import { Usuarios } from "./pages/Usuarios";
@@ -16,6 +16,9 @@ import { ToastContainer } from "react-toastify";
 import { Almacenes } from "./pages/Almacenes";
 import { Inventario } from "./pages/Inventario";
 import { Carrito } from "./pages/Carrito";
+import { Pedidos_Proveedores } from "./pages/Pedidos_Proveedores";
+import { Pedidos } from "./pages/Pedidos";
+import { Pedido } from "./pages/Pedido";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,16 +39,52 @@ function App() {
             path={"/Proveedores"}
             element={user ? <Proveedores /> : <Auth />}
           />
+          <Route path={"/Carrito"} element={user ? <Carrito /> : <Auth />} />
           <Route
             path={"/Inmuebles"}
             element={user ? <Inmuebles /> : <Auth />}
           />
+          {user && (
+            <Route
+              path={"/Pedidos"}
+              element={
+                user.rol == "admin" || user.rol == "proveedor" ? (
+                  <Pedidos user={user} />
+                ) : (
+                  <Auth />
+                )
+              }
+            />
+          )}
+          {user && (
+            <Route
+              path={"/Pedidos_Proveedores"}
+              element={
+                user.rol == "empleado" || user.rol == "admin" ? (
+                  <Pedidos_Proveedores />
+                ) : (
+                  <Auth />
+                )
+              }
+            />
+          )}
           <Route path={"/Finanzas"} element={user ? <Finanzas /> : <Auth />} />
+          {user && (
+            <Route
+              path={"/Productos"}
+              element={
+                user.rol != "cliente" ? <Productos user={user} /> : <Auth />
+              }
+            />
+          )}
           <Route
-            path={"/Productos"}
-            element={user ? <Productos /> : <Auth />}
+            path={"/Producto/:id_producto"}
+            element={user ? <Producto /> : <Auth />}
           />
-          <Route path={"/Producto/:id_producto"} element={user ? <Producto /> : <Auth />} />
+          <Route
+            path={"/Pedido/:id_pedido"}
+            element={user ? <Pedido /> : <Auth />}
+          />
           <Route path={"/Usuarios"} element={user ? <Usuarios /> : <Auth />} />
           <Route
             path={"/Almacenes"}

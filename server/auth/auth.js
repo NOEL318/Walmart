@@ -3,26 +3,54 @@ const bcrypt = require("bcrypt");
 const Auth_SQL = require("../database/Auth");
 
 module.exports = {
+  // signUp: async function (user) {
+  //   const exist = await Auth_SQL.AccountExist(user.email);
+  //   if (exist != null) {
+  //     return { status: 401, token: null, error: "Ya tienes una cuenta" };
+  //   } else if (exist == null) {
+  //     const salt = await bcrypt.genSalt(10);
+  //     var hash = await bcrypt.hash(user.contrasena, salt);
+  //     user.contrasena = hash;
+  //     var response = await Auth_SQL.SignUp(user);
+  //     return {
+  //       status: 200,
+  //       token: null,
+  //       error: "Cuenta Creada Inicia Sesión.",
+  //     };
+  //   }
+  // },
+
   signUp: async function (user) {
     const exist = await Auth_SQL.AccountExist(user.email);
-    console.log(exist, "Exist aaa");
     if (exist != null) {
       return { status: 401, token: null, error: "Ya tienes una cuenta" };
-    } else if (exist == null) {
-      const salt = await bcrypt.genSalt(10);
-      var hash = await bcrypt.hash(user.contrasena, salt);
-      user.contrasena = hash;
-      var response = await Auth_SQL.SignUp(user);
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(user.contrasena, salt);
+    user.contrasena = hash;
+    const response = await Auth_SQL.SignUp(user);
+    if (response) {
+      const newUser = await Auth_SQL.AccountExist(user.email);
+      delete newUser.contrasena;
+      const token = jwt.sign(newUser, process.env.ENCODER_FOR_USER_TOKENS, {
+        expiresIn: "3h",
+      });
       return {
         status: 200,
+        token,
+        error: null,
+      };
+    } else {
+      return {
+        status: 500,
         token: null,
-        error: "Cuenta Creada Inicia Sesión.",
+        error: "Error al crear cuenta.",
       };
     }
   },
+
   signIn: async function ({ email, password }) {
     const exist = await Auth_SQL.AccountExist(email);
-    console.log("exist", exist);
     if (exist != null) {
       const verify = await bcrypt.compare(password, exist.contrasena);
       if (verify == true && email == exist.email) {

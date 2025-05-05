@@ -7,6 +7,16 @@ export const get_Categorias = async () => {
 export const get_Productos = async () => {
   return await axios.get(`${url}/api/obtener_productos`);
 };
+
+export const get_Proveedores = async () => {
+  return await axios.get(`${url}/api/obtener_proveedores`);
+};
+export const get_ProductosProveedor = async (id_proveedor) => {
+  return await axios.post(`${url}/api/obtener_productos_proveedor`, {
+    id_proveedor,
+  });
+};
+
 export const get_Producto = async (id_producto) => {
   return await axios.post(`${url}/api/obtener_producto_info`, { id_producto });
 };

@@ -5,10 +5,8 @@ import { url } from "./hooksConfig";
 export const signup = async (user) => {
   const res = await axios.post(`${url}/api/signup`, user);
   const json = await res.data;
-  if (res.status == 200 && res.data.status == 200) {
-    // save the user to local storage
+  if (res.status == 200) {
     localStorage.setItem("user", JSON.stringify(json.token));
-    // update the auth context
     const token = json.token;
     return jose.decodeJwt(token);
   } else {
@@ -107,6 +105,14 @@ export const crearEmpleadodeCliente = async (data) => {
   return await axios.post(`${url}/api/create_empleado_from_cliente`, data);
 };
 
+export const tramitarMembresia = async (data) => {
+  return await axios.post(`${url}/api/tramitar_membresia`, data);
+};
+
+export const getMembresia = async (id_cliente) => {
+  return await axios.post(`${url}/api/obtener_membresia`, { id_cliente });
+};
+
 export const crearProveedordeCliente = async (email) => {
   return await axios.post(`${url}/api/create_proveedor_from_cliente`, {
     email,
@@ -126,5 +132,7 @@ const authServices = {
   buscarClienteUsuarios,
   crearEmpleadodeCliente,
   crearProveedordeCliente,
+  tramitarMembresia,
+  getMembresia,
 };
 export default authServices;

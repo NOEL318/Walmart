@@ -3,10 +3,13 @@ import {
   get_Categorias,
   create_Category,
   create_Product,
+  get_Proveedores,
+  get_ProductosProveedor,
 } from "../hooks/useProductos";
 import { toast } from "react-toastify";
 
-export const Productos = () => {
+export const Productos = ({ user }) => {
+  console.log(user);
   const [formData, setformData] = useState({
     nombre: "",
     descripcion: "",
@@ -14,8 +17,10 @@ export const Productos = () => {
     id_categoria: "",
     precio_unitario: 0,
     min_stock: 0,
+    id_proveedor: user.id_proveedor,
   });
-
+  const [proveedores, setproveedores] = useState();
+  const [productos, setproductos] = useState();
   const [categoryform, setcategoryform] = useState({
     nombre: "",
     descripcion: "",
@@ -26,6 +31,13 @@ export const Productos = () => {
   useEffect(() => {
     const getData = async () => {
       var { data } = await get_Categorias();
+      var provs = await get_Proveedores();
+      if (user) {
+        var prods = await get_ProductosProveedor(user.id_proveedor);
+        setproductos(prods.data.data);
+      }
+      setproveedores(provs.data.data);
+
       data = data.data;
       setcategorias(data);
     };
@@ -43,7 +55,6 @@ export const Productos = () => {
 
   const createCategory = async () => {
     var response = await create_Category(categoryform);
-    console.log("response", response);
     if (response.status == 200) {
       toast("Registrado Exitósamente", { type: "success" });
     } else {
@@ -53,12 +64,11 @@ export const Productos = () => {
 
   const createProduct = async () => {
     var response = await create_Product(formData);
-    console.log("response", response);
     if (response.status == 200) {
       toast("Registrado Exitósamente", { type: "success" });
     }
   };
-  if (categorias) {
+  if (categorias && proveedores && productos) {
     return (
       <>
         <div className="productos">
@@ -151,6 +161,27 @@ export const Productos = () => {
                   );
                 })}
               </select>
+
+              <select
+                name="id_proveedor"
+                onChange={updateFormJson}
+                defaultValue={""}
+                required
+              >
+                <option value="" disabled>
+                  Proveedores
+                </option>
+                {proveedores.map((proveedor) => {
+                  return (
+                    <option
+                      key={proveedor.id_proveedor}
+                      value={proveedor.id_proveedor}
+                    >
+                      {proveedor.nombre}
+                    </option>
+                  );
+                })}
+              </select>
               <input
                 type="number"
                 name="min_stock"
@@ -161,6 +192,35 @@ export const Productos = () => {
               <button className="button big yellow">Registrar Producto</button>
             </form>
           </div>
+
+          <h1>Tus Productos:</h1>
+          <table>
+            <thead>
+              <td>Imagen</td>
+              <td>Nombre</td>
+              <td>Descripción</td>
+              <td>Precio Unitario</td>
+              <td>Stock Mínimo</td>
+            </thead>
+            <tbody>
+              {productos.map((producto) => {
+                console.log(producto);
+                return (
+                  <tr>
+                    <td>
+                      <div className="img">
+                        <img src={producto.img_url} alt="" />
+                      </div>
+                    </td>
+                    <td>{producto.nombre}</td>
+                    <td className="exwdth">{producto.precio_unitario}</td>
+                    <td>{producto.descripcion}</td>
+                    <td className="exwdth">{producto.min_stock}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </>
     );
