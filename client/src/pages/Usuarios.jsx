@@ -1,39 +1,49 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { New_Proveedor } from "../hooks/useProveedores";
-import { get_Tiendas } from "../hooks/useAuth";
+import { FaCircle } from "react-icons/fa";
+import {
+  buscarClienteUsuarios,
+  crearEmpleadodeCliente,
+  get_Tiendas,
+  obtenerUsuarios,
+} from "../hooks/useAuth";
 export const Usuarios = () => {
-  const [nombre, setnombre] = useState();
-  const [direccion, setdireccion] = useState();
-  const [telefono, settelefono] = useState();
-  const [email, setemail] = useState();
-  const registro_proveedores = useRef(null);
   const [tiendas, settiendas] = useState();
+  const [emails_encontrados, setemails_encontrados] = useState();
+  const [email, setemail] = useState("");
+  const [visible, setvisible] = useState();
+  const [usuarios, setusuarios] = useState();
   const [formData, setformData] = useState({
-    nombre: "",
-    apellidos: "",
     email: "",
-    password: "",
     rol: "",
-    direccion: "",
-    telefono: "",
-    ciudad: "",
     puesto: "",
     salario: 0,
+    id_tienda: "",
   });
 
   useEffect(() => {
     const getData = async () => {
       var { data } = await get_Tiendas();
+      var users = await obtenerUsuarios();
+      setusuarios(users.data.data);
       data = data.data;
       settiendas(data);
     };
     getData();
   }, [0]);
 
-  const updateFormJson = (e) => {
+  const updateFormEmpleadosJson = (e) => {
     const { name, value } = e.target;
     setformData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const buscar_ClienteUsuarios = async (email) => {
+    var res = await buscarClienteUsuarios(email);
+    setemails_encontrados(res.data.data);
+  };
+
+  const crear_EmpleadodeCliente = async () => {
+    var res = await crearEmpleadodeCliente(formData);
   };
 
   if (tiendas)
@@ -43,19 +53,65 @@ export const Usuarios = () => {
           <ToastContainer />
           <div className="form_container">
             <h1>Registro de Empleados</h1>
-            <form action="" className="formulario">
-              
-              <select name="rol" id="">
+            <form
+              action=""
+              className="formulario"
+              onSubmit={(e) => {
+                e.preventDefault();
+                crear_EmpleadodeCliente();
+              }}
+            >
+              <input
+                type="text"
+                value={email}
+                onChange={(e) => {
+                  const newEmail = e.target.value;
+                  setemail(newEmail);
+                  buscar_ClienteUsuarios(newEmail !== "" ? newEmail : null);
+                  setvisible(true);
+                }}
+                name="email"
+                placeholder="Buscar email..."
+              />
+              {visible && emails_encontrados?.length > 0 && (
+                <ul className="email_selector">
+                  {emails_encontrados.map((emailEncontrado) => (
+                    <li
+                      onClick={() => {
+                        setemail(emailEncontrado.email);
+                        setvisible(false);
+                        setformData((prev) => ({
+                          ...prev,
+                          email: emailEncontrado.email,
+                        }));
+                      }}
+                      key={emailEncontrado.email}
+                    >
+                      {emailEncontrado.email}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <select name="rol" id="" onChange={updateFormEmpleadosJson}>
                 <option value="" selected disabled>
                   Rol en Sistema
                 </option>
-                <option value="">Cliente</option>
-                <option value="">Administrador</option>
-                <option value="">Empleado</option>
-                <option value="">Proveedor</option>
+                <option value="admin">Administrador</option>
+                <option value="empleado">Empleado</option>
               </select>
-              <input type="text" name="puesto" placeholder="Puesto" />
-              <select name="tienda" id="" placeholder="Tienda">
+              <input
+                type="text"
+                onChange={updateFormEmpleadosJson}
+                name="puesto"
+                placeholder="Puesto"
+              />
+              <select
+                name="id_tienda"
+                onChange={updateFormEmpleadosJson}
+                id=""
+                placeholder="Tienda"
+              >
                 <option value="" selected disabled>
                   Tienda
                 </option>
@@ -67,10 +123,48 @@ export const Usuarios = () => {
                   );
                 })}
               </select>
-              <input type="number" name="salario" placeholder="Salario" />
+              <input
+                type="number"
+                onChange={updateFormEmpleadosJson}
+                name="salario"
+                placeholder="Salario"
+              />
+
               <button className="button big yellow">Registrar Usuario</button>
             </form>
           </div>
+
+          <table>
+            <thead>
+              <tr>
+                <td>Estatus</td>
+                <td>Email</td>
+                <td>Fecha Creación</td>
+                <td>Rol</td>
+                <td>UUID</td>
+              </tr>
+            </thead>
+            <tbody>
+              {usuarios &&
+                usuarios.map((usuario) => {
+                  return (
+                    <tr key={usuario.id_usuario}>
+                      <td
+                        className={`active_status ${
+                          usuario.activo ? "true" : "false"
+                        }`}
+                      >
+                        <FaCircle />
+                      </td>
+                      <td>{usuario.email}</td>
+                      <td>{usuario.fecha_creacion}</td>
+                      <td>{usuario.rol}</td>
+                      <td>{usuario.id_usuario}</td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
         </div>
       </>
     );

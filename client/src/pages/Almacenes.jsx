@@ -16,7 +16,8 @@ export const Almacenes = () => {
   if (almacenes)
     return (
       <>
-        <div className="almacenes">
+				<div className="almacenes">
+					<h1>Almacenes:</h1>
           <div className="cards">
             {almacenes.map((almacen) => {
               return (

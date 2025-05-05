@@ -9,11 +9,13 @@ import { loginwithoutpassword } from "./hooks/userSlice";
 import { User } from "./pages/User";
 import { Usuarios } from "./pages/Usuarios";
 import { Productos } from "./pages/Productos";
+import { Producto } from "./pages/Producto";
 import { Inmuebles } from "./pages/Inmuebles";
 import { Finanzas } from "./pages/Finanzas";
 import { ToastContainer } from "react-toastify";
 import { Almacenes } from "./pages/Almacenes";
 import { Inventario } from "./pages/Inventario";
+import { Carrito } from "./pages/Carrito";
 
 function App() {
   const dispatch = useDispatch();
@@ -43,11 +45,13 @@ function App() {
             path={"/Productos"}
             element={user ? <Productos /> : <Auth />}
           />
+          <Route path={"/Producto/:id_producto"} element={user ? <Producto /> : <Auth />} />
           <Route path={"/Usuarios"} element={user ? <Usuarios /> : <Auth />} />
           <Route
             path={"/Almacenes"}
             element={user ? <Almacenes /> : <Auth />}
           />
+          <Route path={"/Carrito"} element={user ? <Carrito /> : <Auth />} />
           <Route
             path={"/Inventario/:id_almacen"}
             element={user ? <Inventario /> : <Auth />}

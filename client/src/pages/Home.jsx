@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Modal } from "../components/Modal";
 import { get_Productos } from "../hooks/useProductos";
+import { Link } from "react-router-dom";
 
 export const Home = ({ user }) => {
   const [showModal, setshowModal] = useState(false);
@@ -32,22 +33,24 @@ export const Home = ({ user }) => {
             <div className="cards">
               {productos.map((producto) => {
                 return (
-                  <div className="card">
-                    <div className="image">
-                      <img src={producto.img_url} alt="" />
-                    </div>
-                    <div className="text">
-                      <h2>{producto.nombre}</h2>
-                      <div className="descripcion">
-                        <p>{producto.descripcion}</p>
+                  <Link to={`/Producto/${producto.id_producto}`}>
+                    <div className="card">
+                      <div className="image">
+                        <img src={producto.img_url} alt="" />
                       </div>
-                      <div className="precio">
-                        <div className="bubble">
-                          <h3>${producto.precio_unitario}mxn.</h3>
+                      <div className="text">
+                        <h2>{producto.nombre}</h2>
+                        <div className="descripcion">
+                          <p>{producto.descripcion}</p>
+                        </div>
+                        <div className="precio">
+                          <div className="bubble">
+                            <h3>${producto.precio_unitario}mxn.</h3>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

@@ -35,13 +35,81 @@ app.post("/api/nuevo_proveedor", async (req, res) => {
   res.json({ success: true, data: results });
 });
 
+app.post("/api/buscarclienteusuarios", async (req, res) => {
+  var { email } = req.body;
+  console.log(req.body);
+  const data = await dbquery(`
+		SELECT 
+      u.email
+		FROM 
+    	Usuarios u
+		JOIN 
+    	Clientes c ON u.id_usuario = c.id_usuario
+		WHERE 
+    	u.email LIKE '%${email}%' LIMIT 5;
+;
+`);
+  res.json({ success: true, data: data });
+});
+
+app.post("/api/create_empleado_from_cliente", async (req, res) => {
+  var { email, rol, puesto, id_tienda, salario } = req.body;
+  console.log(req.body);
+  const data =
+    await dbquery(`CALL ConvertirClienteAEmpleado('${email}','${rol}',
+    '${puesto}',
+    '${id_tienda}',
+    ${parseFloat(salario)});`);
+  res.json({ success: true, data: data });
+});
+
+app.post("/api/create_proveedor_from_cliente", async (req, res) => {
+  var { email } = req.body;
+  console.log(req.body);
+  const data = await dbquery(`CALL ConvertirClienteAProveedor('${email}');`);
+  res.json({ success: true, data: data });
+});
+
 app.get("/api/obtener_proveedores", async (req, res) => {
   const data = await dbquery(`SELECT * FROM Proveedores;`);
   res.json({ success: true, data: data });
 });
 
+app.post("/api/obtener_producto_info", async (req, res) => {
+  var { id_producto } = req.body;
+
+  const data = await dbquery(
+    `SELECT * FROM Productos WHERE id_producto = '${id_producto}';`
+  );
+  res.json({ success: true, data: data });
+});
+
+app.post("/api/obtener_producto_inventario", async (req, res) => {
+  var { id_producto } = req.body;
+  const data = await dbquery(
+    `SELECT 
+  t.nombre AS nombre_tienda,
+  i.cantidad
+FROM Inventario i
+JOIN Tiendas t ON i.id_tienda = t.id_tienda
+WHERE i.id_producto = '${id_producto}';`
+  );
+  res.json({ success: true, data: data });
+});
+
 app.get("/api/obtener_categorias", async (req, res) => {
   const data = await dbquery(`SELECT * FROM Categorias;`);
+  res.json({ success: true, data: data });
+});
+
+app.get("/api/obtener_usuarios", async (req, res) => {
+  const data = await dbquery(`SELECT 
+  id_usuario,
+  email,
+  rol,
+  fecha_creacion,
+  activo
+FROM Usuarios;`);
   res.json({ success: true, data: data });
 });
 
@@ -99,12 +167,24 @@ app.get("/api/obtener_almacenes", async (req, res) => {
 });
 
 app.post("/api/add_to_almacen_inventario", async (req, res) => {
-  var { id_producto, id_almacen, cantidad } = req.body;
-  const data = await dbquery(
-    `Insert Into Inventario(id_producto, id_almacen, cantidad) VALUES ('${id_producto}', '${id_almacen}', ${parseInt(
-      cantidad
-    )})`
-  );
+	var { id_producto, id_almacen, cantidad, id_tienda } = req.body;
+	console.log(req.body, "Asjjsaj")
+  const data = await dbquery(`
+      INSERT INTO Inventario (id_producto, id_almacen, id_tienda, cantidad)
+      VALUES ('${id_producto}', '${id_almacen}', '${id_tienda}',${parseInt(
+    cantidad
+  )})
+      ON DUPLICATE KEY UPDATE 
+        cantidad = cantidad + VALUES(cantidad),
+        updated = CURRENT_TIMESTAMP;
+    `);
+
+  const sqlAlmacen = await dbquery(`
+      UPDATE Almacenes
+      SET no_productos = no_productos + ${parseInt(cantidad)}
+      WHERE id_almacen = '${id_almacen}';
+    `);
+
   res.json({ data });
 });
 
@@ -139,6 +219,7 @@ app.post("/api/get_inventario", async (req, res) => {
     i.id_producto,
     i.cantidad,
     i.updated,
+		i.id_tienda,
 
     p.nombre AS nombre,
     p.descripcion,

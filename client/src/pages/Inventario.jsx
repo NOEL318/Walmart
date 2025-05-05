@@ -8,6 +8,7 @@ import SyncLoader from "react-spinners/SyncLoader";
 import { get_Productos } from "../hooks/useProductos";
 import { Modal } from "../components/Modal";
 import { toast } from "react-toastify";
+import { get_Tiendas } from "../hooks/useAuth";
 
 export const Inventario = () => {
   var { id_almacen } = useParams();
@@ -18,6 +19,8 @@ export const Inventario = () => {
   const [cantidad, setcantidad] = useState();
   const [showModal, setshowModal] = useState();
   const [selectedproduct, setselectedproduct] = useState();
+  const [tiendas, settiendas] = useState();
+  const [tienda, settienda] = useState();
   useEffect(() => {
     const getData = async () => {
       var products = await get_Productos();
@@ -30,6 +33,11 @@ export const Inventario = () => {
         setalmacen(data.almacen);
         setinventario(data.inventario);
       }
+      if (!tiendas) {
+        var { data } = await get_Tiendas();
+        data = data.data;
+        settiendas(data);
+      }
     };
     getData();
   }, [0]);
@@ -40,11 +48,14 @@ export const Inventario = () => {
         id_producto: selectedproduct.id_producto,
         id_almacen: almacen.id_almacen,
         cantidad: parseInt(cantidad),
+        id_tienda: tienda,
       };
       var response = await add_To_Almacen_Inventario(formProductJson);
       console.log("response", response);
       if (response.status == 200) {
         toast("Registrado Exitósamente", { type: "success" });
+        setshowModal(false);
+        window.location.reload();
       } else {
         toast("No se ha registrado", { type: "error" });
       }
@@ -53,7 +64,7 @@ export const Inventario = () => {
     }
   };
 
-  if (inventario && product_propositions) {
+  if (inventario && product_propositions && tiendas) {
     return (
       <>
         <Modal
@@ -63,11 +74,29 @@ export const Inventario = () => {
           showModal={showModal}
           body={
             <>
+              {selectedproduct && <img src={selectedproduct.img_url} alt="" />}
               <input
                 type="number"
                 placeholder="Cantidad"
                 onChange={(e) => setcantidad(e.target.value)}
               />
+              <select
+                name="tienda"
+                onChange={(e) => settienda(e.target.value)}
+                id=""
+                placeholder="Tienda"
+              >
+                <option value="" selected disabled>
+                  Tienda
+                </option>
+                {tiendas.map((tienda) => {
+                  return (
+                    <option key={tienda.id_tienda} value={tienda.id_tienda}>
+                      {tienda.nombre}
+                    </option>
+                  );
+                })}
+              </select>
             </>
           }
           action={
@@ -81,7 +110,7 @@ export const Inventario = () => {
           setshowModal={setshowModal}
         />
         <div className="inventario">
-          <h1>Inventario de: {almacen.nombre}</h1>
+          <h1>Inventario de {almacen.nombre}</h1>
 
           {inventario.length > 0 && (
             <table>
@@ -96,13 +125,29 @@ export const Inventario = () => {
               </thead>
               <tbody>
                 {inventario.map((elemento) => {
+                  const fechaUTC = elemento.updated;
+                  const fecha = new Date(fechaUTC);
+
+                  // Ajustar la hora de UTC a la zona horaria local (CDMX = UTC - 6)
+                  fecha.setHours(fecha.getHours() - 6); // Restar 6 horas para la zona horaria de CDMX
+
+                  // Formatear la fecha y hora
+                  const fechaFormateada = fecha.toLocaleString("es-MX", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true, // AM/PM
+                  });
+
                   return (
                     <tr key={elemento.id_producto}>
                       <td>{elemento.cantidad}</td>
                       <td>{elemento.nombre}</td>
                       <td>{elemento.precio_unitario}</td>
                       <td>{elemento.min_stock}</td>
-                      <td>{elemento.updated}</td>
+                      <td>{fechaFormateada}</td>
                     </tr>
                   );
                 })}

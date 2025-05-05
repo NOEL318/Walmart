@@ -95,6 +95,24 @@ export const deleteUser = async ({ id }) => {
   }
 };
 
+export const buscarClienteUsuarios = async (email) => {
+  return await axios.post(`${url}/api/buscarclienteusuarios`, { email });
+};
+
+export const obtenerUsuarios = async () => {
+  return await axios.get(`${url}/api/obtener_usuarios`);
+};
+
+export const crearEmpleadodeCliente = async (data) => {
+  return await axios.post(`${url}/api/create_empleado_from_cliente`, data);
+};
+
+export const crearProveedordeCliente = async (email) => {
+  return await axios.post(`${url}/api/create_proveedor_from_cliente`, {
+    email,
+  });
+};
+
 export const signout = async () => {
   return localStorage.removeItem("user");
 };
@@ -105,5 +123,8 @@ const authServices = {
   signout,
   loginwithoutpassword,
   getUsers,
+  buscarClienteUsuarios,
+  crearEmpleadodeCliente,
+  crearProveedordeCliente,
 };
 export default authServices;

@@ -22,7 +22,7 @@ export const Modal = ({
               <IoClose />
             </button>
           </div>
-          <div className="body">{body}</div>
+          <div className={`body ${showModal}`}>{body}</div>
           <div className="footer">
             <button
               className="button big white"
