@@ -246,3 +246,9 @@ app.get("/api/obtener_tiendas", async (req, res) => {
   const data = await dbquery(`SELECT * FROM Tiendas;`);
   res.json({ success: true, data });
 });
+
+
+const port = process.env.PORT || 5001;
+app.listen(port, () => console.log(`Server Running on port ${port}`));
+
+module.exports = app;
