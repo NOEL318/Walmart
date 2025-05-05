@@ -12,7 +12,7 @@ app.use(express.json({ limit: "50mb" }));
 
 const PORT = process.env.PORT || 5001;
 
-app.use(express.static(path.join(__dirname, "../client/dist")));
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.get("/api/hi", async (req, res) => {
   const results = await dbquery("Select * from Productos;");
@@ -246,12 +246,3 @@ app.get("/api/obtener_tiendas", async (req, res) => {
   const data = await dbquery(`SELECT * FROM Tiendas;`);
   res.json({ success: true, data });
 });
-
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
-
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
-
