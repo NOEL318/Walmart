@@ -1,0 +1,55 @@
+Date : 2025-05-05 16:24:54
+Directory : /Users/noel/Desktop/REPOS/walmart
+Total : 16 files,  575 codes, 3 comments, 41 blanks, all 619 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JavaScript JSX |          5 |        366 |          3 |         22 |        391 |
+| JavaScript     |          5 |        131 |          0 |         15 |        146 |
+| SCSS           |          1 |         68 |          0 |          4 |         72 |
+| JSON           |          3 |         10 |          0 |          0 |         10 |
+| CSS            |          2 |          0 |          0 |          0 |          0 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                        | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                           |         16 |        575 |          3 |         41 |        619 |
+| client                                                                      |         13 |        482 |          3 |         31 |        516 |
+| client/build                                                                |          5 |          1 |          0 |          0 |          1 |
+| client/build/static                                                         |          4 |          0 |          0 |          0 |          0 |
+| client/build/static/css                                                     |          2 |          0 |          0 |          0 |          0 |
+| client/build/static/js                                                      |          2 |          0 |          0 |          0 |          0 |
+| client/src                                                                  |          8 |        481 |          3 |         31 |        515 |
+| client/src (Files)                                                          |          2 |         96 |          0 |          4 |        100 |
+| client/src/components                                                       |          1 |          7 |          3 |          1 |         11 |
+| client/src/hooks                                                            |          1 |         19 |          0 |          5 |         24 |
+| client/src/pages                                                            |          4 |        359 |          0 |         21 |        380 |
+| server                                                                      |          3 |         93 |          0 |         10 |        103 |
++-----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                    | language       | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| /Users/noel/Desktop/REPOS/walmart/client/build/asset-manifest.json          | JSON           |          1 |          0 |          0 |          1 |
+| /Users/noel/Desktop/REPOS/walmart/client/build/static/css/main.29bbb6f8.css | CSS            |         -1 |         -1 |          0 |         -2 |
+| /Users/noel/Desktop/REPOS/walmart/client/build/static/css/main.fb4d8f14.css | CSS            |          1 |          1 |          0 |          2 |
+| /Users/noel/Desktop/REPOS/walmart/client/build/static/js/main.24c22dbe.js   | JavaScript     |         -1 |         -2 |          0 |         -3 |
+| /Users/noel/Desktop/REPOS/walmart/client/build/static/js/main.ce94e082.js   | JavaScript     |          1 |          2 |          0 |          3 |
+| /Users/noel/Desktop/REPOS/walmart/client/src/App.js                         | JavaScript     |         28 |          0 |          0 |         28 |
+| /Users/noel/Desktop/REPOS/walmart/client/src/components/Navbar.jsx          | JavaScript JSX |          7 |          3 |          1 |         11 |
+| /Users/noel/Desktop/REPOS/walmart/client/src/hooks/useProveedores.js        | JavaScript     |         19 |          0 |          5 |         24 |
+| /Users/noel/Desktop/REPOS/walmart/client/src/main.scss                      | SCSS           |         68 |          0 |          4 |         72 |
+| /Users/noel/Desktop/REPOS/walmart/client/src/pages/Pedido.jsx               | JavaScript JSX |        109 |          0 |          9 |        118 |
+| /Users/noel/Desktop/REPOS/walmart/client/src/pages/Pedidos.jsx              | JavaScript JSX |         59 |          0 |          3 |         62 |
+| /Users/noel/Desktop/REPOS/walmart/client/src/pages/Pedidos_Proveedores.jsx  | JavaScript JSX |        193 |          0 |          9 |        202 |
+| /Users/noel/Desktop/REPOS/walmart/client/src/pages/Productos.jsx            | JavaScript JSX |         -2 |          0 |          0 |         -2 |
+| /Users/noel/Desktop/REPOS/walmart/server/index.js                           | JavaScript     |         84 |          0 |         10 |         94 |
+| /Users/noel/Desktop/REPOS/walmart/server/package-lock.json                  | JSON           |          8 |          0 |          0 |          8 |
+| /Users/noel/Desktop/REPOS/walmart/server/package.json                       | JSON           |          1 |          0 |          0 |          1 |
+| Total                                                                       |                |        575 |          3 |         41 |        619 |
++-----------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
